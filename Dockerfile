@@ -1,5 +1,7 @@
 ####################################################
 # Calibre ebook manager inside a docker container
+# https://hub.docker.com/r/gruen/calibre/
+# https://github.com/darrengruen/docker-calibre/
 #
 #   https://calibre-ebook.com/
 #
@@ -14,12 +16,12 @@
 ####################################################
 FROM ubuntu
 MAINTAINER Darren Green <darren@gruen.site>
-RUN apt-get update
-RUN apt-get install -y calibre
+RUN apt-get update \
+    && apt-get install -y calibre \
+    && apt-get remove --purge -y $(apt-mark showauto) \
+    && rm -rf /var/lib/apt/lists/*
 # Once this works we'll add the following all in one command
-#     && apt-get remove --purge -y $(apt-mark showauto) \
 #     && apt-get autoremove -y \
-#     && rm -rf /var/lib/apt/lists/*
 VOLUME [ "/books" ]
 ENTRYPOINT [ "calibre" ]
 CMD [ "--with-library", "/books" ]
