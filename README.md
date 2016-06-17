@@ -2,6 +2,11 @@
 
 Run calibre ebook manager in a docker container
 
+If you like the application, please consider donating on the site. (I get no part of this, I just like to pass the word)
+
+[https://calibre-ebook.com/](https://calibre-ebook.com/)
+
+
 ## Usage
 
 ```
