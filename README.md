@@ -8,16 +8,16 @@ If you like the application, please consider donating on the site. (I get no par
 
 
 ## Usage
-
-```
+```shell
 docker run -it --rm \
-    -v [/path/to/ebooks]:/books \.
+    -v [/path/to/ebooks]:/books \
+    -v [/path/to/books/to/add]:/downloads \
     -v /etc/localtime:/etc/localtime \
     -v /tmp/.X11-unix:/tmp/.X11-unix \
     -e DISPLAY=unix"$DISPLAY" \
-    --name calibre \
+    --name calibre_"$(date +%s)" \
     gruen/calibre
 ```
 
 ### TODO
-- Get this working on alpine linux
+-   Get this working on alpine linux
