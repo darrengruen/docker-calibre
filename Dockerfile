@@ -1,27 +1,32 @@
 ####################################################
 # Calibre ebook manager inside a docker container
+#   https://calibre-ebook.com/
+#
 # https://hub.docker.com/r/gruen/calibre/
 # https://github.com/darrengruen/docker-calibre/
 #
-#   https://calibre-ebook.com/
 #
 # USAGE
 #   docker run -it --rm \
 #       -v [/path/to/ebooks]:/books \
+#       -v [/path/to/books/to/add]:/downloads \
 #       -v /etc/localtime:/etc/localtime
-#       -v /tmp/.X11-unix:/tmp/.X11.unix \
-#       -e DISPLAY=unix$DISPLAY \
-#       --name calibre \
+#       -v /tmp/.X11-unix:/tmp/.X11-unix \
+#       -e DISPLAY=unix"$DISPLAY" \
+#       --name calibre_"$(date +%s) \
 #       gruen/calibre
 ####################################################
+
+# Just a note, this is a huge image using ubuntu:latest
+# Probably just as big with most debian derivatives
+# Consider moving to alpine
 FROM ubuntu
 MAINTAINER Darren Green <darren@gruen.site>
 RUN apt-get update \
     && apt-get install -y calibre \
-    && apt-get remove --purge -y $(apt-mark showauto) \
     && rm -rf /var/lib/apt/lists/*
-# Once this works we'll add the following all in one command
-#     && apt-get autoremove -y \
+RUN apt-get autoremove -y
+WORKDIR /books
 VOLUME [ "/books" ]
-ENTRYPOINT [ "calibre" ]
-CMD [ "--with-library", "/books" ]
+# ENTRYPOINT [ "calibre" ]
+CMD [ "calibre", "--with-library", "/books" ]
