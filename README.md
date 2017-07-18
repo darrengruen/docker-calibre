@@ -19,5 +19,7 @@ docker run -it --rm \
     gruen/calibre
 ```
 
+You can use the [calibre](calibre) script as a starting point
+
 ### TODO
 -   Get this working on alpine linux

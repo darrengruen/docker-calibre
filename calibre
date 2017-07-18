@@ -1,0 +1,31 @@
+#!/usr/bin/env sh
+
+# You may need to un-comment the following to allow containers
+# to access x
+# You can also run the command stand alone
+# xhost local:root
+
+# Repo vars
+REPO=gruen
+NAME=calibre
+TAG=latest
+
+# Adjust these as needed on your system
+BOOKS_DIR="${HOME}"/Documents/books
+DOWNLOADS_DIR="${HOME}"/Downloads
+CONFIG_DIR="${HOME}"/.config/calibre
+
+# In case you want to run multiple instances of 
+# the image at the same time, just add a timestamp
+# or other unique value to the end: "${NAME}$(date +%s)"
+IMAGE_NAME="${NAME}"
+
+docker run -it --rm \
+  -v /etc/localtime:/etc/localtime:ro \
+  -v "${BOOKS_DIR}":/root/books:rw \
+  -v "${DOWNLOADS_DIR}":/root/Downloads:rw \
+  -v "${CONFIG_DIR}":/root/.config/calibre:rw \
+  -v /tmp/.X11-unix:/tmp/.X11-unix:ro \
+  -e DISPLAY=unix"${DISPLAY}" \
+  --name "${IMAGE_NAME}" \
+  "${REPO}"/"${NAME}":"${TAG}"
