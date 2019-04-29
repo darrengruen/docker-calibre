@@ -1,0 +1,16 @@
+sudo: required
+language: minimal
+services:
+  - docker
+
+before_script:
+  - echo "${DOCKER_PASSWORD}" | docker login --username gruen --password-stdin
+
+script:
+  - make lint
+  - make build
+  - make test
+
+after_script:
+  - make push
+

@@ -1,0 +1,19 @@
+schemaVersion: "2.0.0"
+
+commandTests:
+  - name: "Whoami"
+    command: "whoami"
+    expectedOutput: ["calibre"]
+  - name: "which calibre"
+    command: "which"
+    args: ["calibre"]
+    expectedOutput: ['/usr/bin/calibre']
+  - name: "calibre version"
+    command: "calibre"
+    args: ["--version"]
+    expectedOutput: ["3.39.1"]
+metadataTest:
+  cmd: ["--with-library", "/home/calibre/books"]
+  entrypoint: ["calibre"]
+  exposedPorts: []
+  workdir: "/home/calibre/books"
