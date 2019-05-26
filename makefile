@@ -1,5 +1,7 @@
+# This prevents any quirks between shell types
 SHELL := /bin/bash
 
+# Set some defaults for local development
 TRAVIS_BRANCH ?= $(shell git rev-parse --abbrev-ref HEAD 2> /dev/null || echo "unstable")
 TRAVIS_COMMIT ?= $(shell git rev-parse --short HEAD 2> /dev/null || echo "unstable")
 
@@ -8,14 +10,20 @@ build_date    ?= $(shell date -u +%FT%T.%S%Z)
 img           ?= ${ns}/${app}:${tag}
 ns            ?= gruen
 tag           ?= $(shell sed 's|/|_|g' <<< ${TRAVIS_BRANCH}) 
+
+ifdef NOCACHE
+	nocache     := --no-cache
+endif
 # This is used for pushing from CI
 
 base = [0-9]{1,4}
 match = ^(master|latest|${base}(.${base})?(.${base})?((-|_).*))?
 
+
 .PHONY: build
 build: lint
 	docker build \
+		${nocache} \
 	  --build-arg BRANCH_NAME=${TRAVIS_BRANCH} \
 	  --build-arg BUILD_DATE=${build_date} \
 	  --build-arg COMMIT_SHA=${TRAVIS_COMMIT} \
@@ -33,9 +41,6 @@ lint:
 push:
 	[[ ${tag} =~ ${match} ]] && docker push ${img} || echo "No push, not a version tag"
 	[[ ${tag} =~ ${match} ]] && docker push ${img} || echo "No push, not a version tag"
-
-.match:
-	[[ ${tag} =~ ${match} ]]
 
 .PHONY: test
 test: build
