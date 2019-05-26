@@ -6,8 +6,8 @@ If you like the application, please consider donating on the site. (I get no par
 
 [https://calibre-ebook.com/](https://calibre-ebook.com/)
 
-
 ## Usage
+
 ```shell
 docker run -it --rm \
     -v [/path/to/ebooks]:/books \
@@ -22,4 +22,5 @@ docker run -it --rm \
 You can use the [calibre](calibre) script as a starting point
 
 ### TODO
+
 -   Get this working on alpine linux
