@@ -16,4 +16,4 @@ metadataTest:
   cmd: ["--with-library", "/home/calibre/books"]
   entrypoint: ["calibre"]
   exposedPorts: []
-  workdir: "/home/calibre/books"
+  workdir: "/home/calibre"
